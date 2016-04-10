@@ -13,6 +13,10 @@ const int fslpDriveLine1  = 8;
 const int fslpDriveLine2  = A0;
 const int fslpBotR0       = 9;
 
+int cap1out = 0;
+int cap2out = 0;
+int cap3out = 0;
+
 /*
  * Setup function. It runs once whenever the reset button is pressed
  * or the board is powered up.
@@ -55,9 +59,23 @@ void loop() {
   pot2 = mapPot(pot2, true);
   pot3 = mapPot(pot3, false);
 
+  if (cap1 == 1) {
+    cap1out = 1;
+    cap2out = 0;
+    cap3out = 0;
+  } else if (cap2 == 1) {
+    cap1out = 0;
+    cap2out = 1;
+    cap3out = 0;
+  } else if (cap3 == 1) {
+    cap1out = 0;
+    cap2out = 0;
+    cap3out = 1;
+  }
+
   // Prepare the serial output
   char report[25];
-  sprintf(report, "%d %d %d %d %d %d\n", pot1, pot2, pot3, cap1, cap2, cap3);
+  sprintf(report, "%d %d %d %d %d %d\n", pot1, pot2, pot3, cap1out, cap2out, cap3out);
   Serial.print(report);
   
   delay(50);
